@@ -3,7 +3,7 @@ CC = $(CROSS)gcc
 
 CFLAGS = -O3 -DNDEBUG -Wall -c
 
-SRCS = $(wildcard ./*.c)
+SRCS = $(wildcard ./src/*.c)
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 
 HEADER_PATH = -I./include/
@@ -22,4 +22,4 @@ $(OBJS):%.o : %.c
 	$(CC) $(CFLAGS) $< -o $@ $(HEADER_PATH)
 
 clean:
-	rm -rf $(TARGET) *.o
+	rm -rf $(TARGET) ./src/*.o
