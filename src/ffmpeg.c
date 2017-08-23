@@ -113,6 +113,7 @@ static int nb_frames_drop = 0;
 static int64_t decode_error_stat[2];
 static int card = 0;
 static int key_loss = 0;
+static int64_t last_time;
 
 static int want_sdp = 1;
 
@@ -660,6 +661,7 @@ static void write_packet(OutputFile *of, AVPacket *pkt, OutputStream *ost)
     AVFormatContext *s = of->ctx;
     AVStream *st = ost->st;
     int ret;
+	int64_t cur_time;
 
 	//if(pkt->flags & AV_PKT_FLAG_KEY){
     if (!of->header_written) {
@@ -779,9 +781,18 @@ static void write_packet(OutputFile *of, AVPacket *pkt, OutputStream *ost)
                 pkt->size
               );
     }
+
 	if(card){
-		if(get_random_num() % 7 == 0)
+		if(!last_time){
+			last_time = av_gettime_relative();	
+		}
+
+		cur_time = av_gettime_relative();
+
+		if(get_random_num() % 5 == 0 && (cur_time - last_time) > 6000000){
+			last_time = cur_time;
 			av_usleep(1000000);
+		}
 	}	
 
 	if(key_loss){
