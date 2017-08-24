@@ -653,7 +653,7 @@ static void close_all_output_streams(OutputStream *ost, OSTFinished this_stream,
 static int get_random_num()
 {
 	srand(time(0));
-	return rand()%10+1;
+	return rand()%6+1;
 }
 
 static void write_packet(OutputFile *of, AVPacket *pkt, OutputStream *ost)
@@ -786,12 +786,15 @@ static void write_packet(OutputFile *of, AVPacket *pkt, OutputStream *ost)
 		if(!last_time){
 			last_time = av_gettime_relative();	
 		}
+        
 
 		cur_time = av_gettime_relative();
 
-		if(get_random_num() % 5 == 0 && (cur_time - last_time) > 6000000){
+		if(get_random_num() % 2 == 0 && (cur_time - last_time) > 5000000){
 			last_time = cur_time;
-			av_usleep(1000000);
+            printf("card...\n");
+            
+            av_usleep(2000000);
 		}
 	}	
 
