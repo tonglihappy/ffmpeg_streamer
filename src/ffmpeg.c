@@ -801,7 +801,7 @@ static void write_packet(OutputFile *of, AVPacket *pkt, OutputStream *ost)
 	if(key_loss){
 		if(get_random_num() % 4 == 0){
 			if(pkt->flags & AV_PKT_FLAG_KEY){
-			//	printf("key framd loss\n");
+				printf("key framd loss\n");
 				return;
 			}
 		}
